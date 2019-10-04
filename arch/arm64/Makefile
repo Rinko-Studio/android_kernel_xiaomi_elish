@@ -49,9 +49,6 @@ $(warning Detected assembler with broken .inst; disassembly will be unreliable)
   endif
 endif
 
-COMPATCC ?= $(CROSS_COMPILE_COMPAT)gcc
-export COMPATCC
-
 ifeq ($(CONFIG_GENERIC_COMPAT_VDSO), y)
   export CONFIG_COMPAT_VDSO := y
   compat_vdso := -DCONFIG_COMPAT_VDSO=1
