@@ -3593,6 +3593,7 @@ err_clear:
 	return err;
 }
 
+#if IS_ENABLED(CONFIG_MIHW)
 /*
  * simple hash function for a string,
  * http://www.cse.yorku.ca/~oz/hash.html
@@ -3624,6 +3625,12 @@ BPF_CALL_1(bpf_get_comm_hash_from_sk, struct sk_buff *, skb)
 	rcu_read_unlock();
 	return hash;
 }
+#else
+BPF_CALL_1(bpf_get_comm_hash_from_sk, struct sk_buff *, skb)
+{
+	return 0;
+}
+#endif
 
 static const struct bpf_func_proto bpf_get_comm_hash_from_sk_proto = {
 	.func           = bpf_get_comm_hash_from_sk,
@@ -4944,8 +4951,10 @@ sk_filter_func_proto(enum bpf_func_id func_id, const struct bpf_prog *prog)
 		return &bpf_get_socket_cookie_proto;
 	case BPF_FUNC_get_socket_uid:
 		return &bpf_get_socket_uid_proto;
+#if IS_ENABLED(CONFIG_MIHW)
 	case BPF_FUNC_get_comm_hash_from_sk:
 		return &bpf_get_comm_hash_from_sk_proto;
+#endif
 	default:
 		return bpf_base_func_proto(func_id);
 	}
