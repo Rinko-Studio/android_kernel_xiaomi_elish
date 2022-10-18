@@ -231,9 +231,7 @@ ifeq ($(KERNEL_BUILD), 1)
 	obj-y	+= wcd937x/
 	obj-y	+= wcd938x/
 	obj-y	+= bolero/
-ifeq ($(TARGET_PRODUCT), $(filter $(TARGET_PRODUCT), enuma))
-	obj-y	+= cs35l41_v2/
-else ifeq ($(TARGET_PRODUCT), $(filter $(TARGET_PRODUCT), elish))
+ifeq ($(CONFIG_ARCH_KONA), y)
 	obj-y	+= cs35l41_v2/
 else
 	obj-y	+= cs35l41/
